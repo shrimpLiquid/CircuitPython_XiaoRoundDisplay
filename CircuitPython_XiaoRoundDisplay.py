@@ -16,6 +16,7 @@
 import board
 import digitalio
 import displayio
+import fourwire 
 import gc9a01
 from adafruit_register import i2c_bit
 from adafruit_bus_device.i2c_device import I2CDevice
@@ -71,14 +72,13 @@ class XiaoRoundDisplay():
         print("Touch panel Rotation={} degree".format(rotation))
 
     def display(self):
-        # GC9A01 display
-        # IMPORTANT: You need to release_displays before creating display_bus
         displayio.release_displays()
-        self.display_bus = displayio.FourWire(
-                        self._spi,
-                        command=tft_dc,
-                        chip_select=tft_cs
-                        )    
+        self.display_bus = fourwire.FourWire(
+            self._spi,
+            command=tft_dc,
+            chip_select=tft_cs
+            )
+  
         d = gc9a01.GC9A01(
                     self.display_bus,
                     width=dw,
